@@ -15,4 +15,4 @@ pluginManagement {
     }
 }
 
-include(":secp256k1", ":SwiftChachaPoly")
+include(":secp256k1")
