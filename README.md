@@ -19,6 +19,12 @@ This template is extracted from [a more comprehensive example](https://github.co
 
 ## Mac Setup
 Install javah (Required by Android JNI bindings. Not relevant for the iOS cinterop template)
+`brew update`
+
+`brew upgrade`
+
+`brew tap homebrew/cask-versions`
+
 `brew install --cask temurin8`
 
 Install android studio `https://developer.android.com/studio`
