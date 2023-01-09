@@ -21,8 +21,11 @@ This template is extracted from [a more comprehensive example](https://github.co
 Install javah (Required by Android JNI bindings. Not relevant for the iOS cinterop template)
 `brew install --cask temurin8`
 
+Install android studio `https://developer.android.com/studio`
+
 `local.properties`
 ```
+sdk.dir=/Users/<USER>/Library/Android/sdk
 javah=/Library/Java/JavaVirtualMachines/temurin-8.jdk/Contents/Home/bin/javah
 ```
 
@@ -61,7 +64,7 @@ kotlin {
          // ..
         }
     // ..
-}
+    }
 ```
 
 #### 3. Import and call library Kotlin/Common 

@@ -78,10 +78,20 @@ android {
         minSdk = 24
         targetSdk = 32
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        /*
+        testFunctionalTest = true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments.put("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
+        */
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+
     }
     externalNativeBuild {
         cmake {
