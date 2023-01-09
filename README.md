@@ -29,6 +29,14 @@ Install javah (Required by Android JNI bindings. Not relevant for the iOS cinter
 
 Install android studio `https://developer.android.com/studio`
 
+Install xcode
+
+Install iPhone 12 emulator with iOS 16.2 using xcode
+
+xcode -> window -> devices and emulators -> plus icon
+
+``
+
 `local.properties`
 ```
 sdk.dir=/Users/<USER>/Library/Android/sdk
@@ -37,6 +45,9 @@ javah=/Library/Java/JavaVirtualMachines/temurin-8.jdk/Contents/Home/bin/javah
 
 ## Build
 `./gradlew build`
+
+## Test
+`./gradlew allTests`
 
 ## Deploy
 Publishes the library to your local Maven repository
