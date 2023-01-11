@@ -1,19 +1,32 @@
-cmake_minimum_required(VERSION 3.10.0)
+cmake_minimum_required(VERSION 3.13.0)
 
-project("Secp256k1Jni")
+project("linknexakotlin")
+include(ndk-stl-config.cmake)
+set(ANDROID_STL "c++_shared")
+#add_library(libnexalight SHARED IMPORTED)
+#set_target_properties(libnexalight PROPERTIES IMPORTED_LOCATION
+#    "${CMAKE_CURRENT_LIST_DIR}/../../../libnexa/build/android/${ANDROID_ABI}/libnexalight.so")
 
 add_library(
-    secp256k1-jni
+    linknexakotlin
     SHARED
-    secp256k1-jni.cpp
+    nexakotlincpp.cpp
 )
 
 target_include_directories(
-    secp256k1-jni
-    PUBLIC ${CMAKE_CURRENT_LIST_DIR}/../../../secp256k1/secp256k1/include
+    linknexakotlin
+    PUBLIC ${CMAKE_CURRENT_LIST_DIR}/../../../libnexa/src/include
     PUBLIC ${CMAKE_CURRENT_LIST_DIR}/../../../build/nativeHeaders
 )
 
-target_link_libraries( secp256k1-jni
-    ${CMAKE_CURRENT_LIST_DIR}/../../../secp256k1/build/android/${ANDROID_ABI}/libsecp256k1.a
+set(NEXA_LIGHT "-Wl,--whole-archive ${CMAKE_CURRENT_LIST_DIR}/../../../libnexa/build/android/${ANDROID_ABI}/libnexalight.a -Wl,--no-whole-archive")
+
+target_link_libraries(linknexakotlin
+        ${NEXA_LIGHT}
+        android
+        log
+        c++_static
 )
+
+
+# ${CMAKE_CURRENT_LIST_DIR}/../../../libnexa/build/android/${ANDROID_ABI}/libnexa.a

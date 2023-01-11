@@ -7,6 +7,7 @@ plugins {
     kotlin("multiplatform") version "1.6.21"
     id("com.android.library")
     `maven-publish`
+    idea
 }
 
 group = "net.kodein.demo.crypto"
@@ -24,24 +25,24 @@ kotlin {
         publishAllLibraryVariants()
     }
 
-    fun KotlinNativeTarget.secp256k1CInterop() {
+    fun KotlinNativeTarget.libnexa() {
         compilations["main"].cinterops {
-            val secp256k1 by creating {
-                includeDirs.headerFilterOnly(project.file("secp256k1/secp256k1/include/"))
-                tasks[interopProcessingTaskName].dependsOn(":secp256k1:buildSecp256k1Ios")
+            val libnexa by creating {
+                includeDirs.headerFilterOnly(project.file("libnexa/libnexa/include/"))
+                tasks[interopProcessingTaskName].dependsOn(":libnexa:buildLibnexaIos")
             }
         }
     }
 
     ios {
-        secp256k1CInterop()
+        libnexa()
     }
 
     iosSimulatorArm64 {
         compilations["main"].defaultSourceSet.dependsOn(sourceSets["iosMain"])
         compilations["test"].defaultSourceSet.dependsOn(sourceSets["iosTest"])
 
-        secp256k1CInterop()
+        libnexa()
     }
 
     sourceSets {
@@ -95,6 +96,7 @@ android {
     }
     externalNativeBuild {
         cmake {
+            // arguments += "-DANDROID_STL=c++_shared"
             path("src/androidMain/cpp/CMakeLists.txt")
         }
     }
@@ -105,6 +107,8 @@ task<Exec>("generateJniHeaders") {
     dependsOn("compileDebugKotlinAndroid")
 
     afterEvaluate {
+        commandLine("ls")
+        /*  We do not need to autogenerate jni headers
         val output = "$buildDir/nativeHeaders/"
         val compileTask = tasks["compileDebugKotlinAndroid"] as KotlinCompile
         inputs.files(compileTask)
@@ -115,19 +119,20 @@ task<Exec>("generateJniHeaders") {
             .inputStream().use { Properties().apply { load(it) } }
             .getProperty("javah") ?: error("Please add a javah property in the local.properties file (path to the javah binary)")
 
-        commandLine(javah, "-d", output, "-cp", classPath.joinToString(File.pathSeparator), "net.kodein.demo.crypto.Secp256k1Jni")
+        commandLine(javah, "-d", output, "-cp", classPath.joinToString(File.pathSeparator), "net.kodein.demo.crypto.LibnexaJni")
+*/
     }
 }
 
 afterEvaluate {
     tasks.filter { it.name.startsWith("configureCMake") } .forEach {
-        it.dependsOn("generateJniHeaders", ":secp256k1:buildSecp256k1Android")
+        it.dependsOn("generateJniHeaders", ":libnexa:buildLibnexaAndroid")
     }
 }
 
 afterEvaluate {
     tasks.withType<AndroidUnitTest>().all {
-        enabled = false
+        enabled = true
     }
 }
 
@@ -138,5 +143,13 @@ afterEvaluate {
             showExceptions = true
             showStackTraces = true
         }
+    }
+}
+
+// Stop android studio from indexing the contrib folder
+idea {
+    module {
+        excludeDirs.add(File("libnexa/nexa"))
+        excludeDirs.add(File("/fast/bitcoin/nexa"))  // Painful but the IDE can't deal with symlinks
     }
 }

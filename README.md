@@ -1,7 +1,4 @@
-# iOS cinterop Kotlin/Native template
-The template uses cinterop to bridge C++/C header-code to iOS Kotlin/Native.
-
-There is also an Java Native Interface-Android part to deploy the template using multiplatform.
+# LibNexaKotlin iOS Android Multiplatform Library
 
 This template is extracted from [a more comprehensive example](https://github.com/KodeinKoders/Playground-Demo-Crypto) see [the corresponding YouTube talk](https://www.youtube.com/watch?v=Z2PHpxVD9_s). Credits to both the code snippet and the video goes to [Salomon Brys](https://twitter.com/salomonbrys) 
 ## Folder structure
@@ -29,7 +26,7 @@ Install javah (Required by Android JNI bindings. Not relevant for the iOS cinter
 
 Install android studio `https://developer.android.com/studio`
 
-Install xcode
+Install xcode from apple app store
 
 Install iPhone 12 emulator with iOS 16.2 using xcode
 

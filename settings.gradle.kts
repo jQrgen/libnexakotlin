@@ -1,4 +1,4 @@
-rootProject.name = "DemoCrypto"
+rootProject.name = "libnexakotlin"
 
 pluginManagement {
     repositories {
@@ -15,4 +15,4 @@ pluginManagement {
     }
 }
 
-include(":secp256k1")
+include(":libnexa")
