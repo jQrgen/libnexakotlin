@@ -1,4 +1,5 @@
 package bitcoinunlimited.libbitcoincash
+import libnexa.*
 
 private class LibNexaIos : LibNexa
 {

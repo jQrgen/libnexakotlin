@@ -17,7 +17,7 @@ fun creatingBuildLibnexaIos(arch: String) = tasks.creating(Exec::class) {
 
     onlyIf { currentOs.isMacOsX }
 
-    inputs.files("$projectDir/build-ios.sh", fileTree("$projectDir/libnexa/src") {
+    inputs.files("$projectDir/build-ios.sh", fileTree("$projectDir/libnexa/nexa") {
         include("*.c", "*.h")
         exclude("*-config.h")
     })
@@ -41,6 +41,8 @@ fun creatingBuildLibnexaAndroid(arch: String) = tasks.creating(Exec::class) {
     group = "build"
     buildLibnexaAndroid.dependsOn(this)
 
+    //  onlyIf { currentOs.isLinux }
+
     inputs.files("build-android.sh", fileTree("$projectDir/libnexa/src") {
         include("*.c", "*.h")
         exclude("*-config.h")
@@ -57,7 +59,8 @@ fun creatingBuildLibnexaAndroid(arch: String) = tasks.creating(Exec::class) {
     }
     environment("TOOLCHAIN", toolchain)
     environment("ARCH", arch)
-    environment("ANDROID_NDK", (rootProject.extensions["android"] as LibraryExtension).ndkDirectory)
+    val le = (rootProject.extensions["android"] as LibraryExtension)
+    environment("ANDROID_NDK", le.ndkDirectory)
     commandLine(bash, "build-android.sh")
 }
 val buildLibnexaAndroidX86_64 by creatingBuildLibnexaAndroid("x86_64")

@@ -28,7 +28,7 @@ kotlin {
     fun KotlinNativeTarget.libnexa() {
         compilations["main"].cinterops {
             val libnexa by creating {
-                includeDirs.headerFilterOnly(project.file("libnexa/libnexa/include/"))
+                // includeDirs.headerFilterOnly(project.file("libnexa/nexa/src/cashlib/"))
                 tasks[interopProcessingTaskName].dependsOn(":libnexa:buildLibnexaIos")
             }
         }
@@ -102,33 +102,6 @@ android {
     }
 }
 
-task<Exec>("generateJniHeaders") {
-    group = "build"
-    dependsOn("compileDebugKotlinAndroid")
-
-    afterEvaluate {
-        commandLine("ls")
-        /*  We do not need to autogenerate jni headers
-        val output = "$buildDir/nativeHeaders/"
-        val compileTask = tasks["compileDebugKotlinAndroid"] as KotlinCompile
-        inputs.files(compileTask)
-        outputs.dir(output)
-        val classPath = compileTask.classpath + compileTask.outputs.files
-
-        val javah = (File("$rootDir/local.properties").takeIf { it.exists() } ?: error("Please create a local.properties file with a javah property (path to the javah binary)"))
-            .inputStream().use { Properties().apply { load(it) } }
-            .getProperty("javah") ?: error("Please add a javah property in the local.properties file (path to the javah binary)")
-
-        commandLine(javah, "-d", output, "-cp", classPath.joinToString(File.pathSeparator), "net.kodein.demo.crypto.LibnexaJni")
-*/
-    }
-}
-
-afterEvaluate {
-    tasks.filter { it.name.startsWith("configureCMake") } .forEach {
-        it.dependsOn("generateJniHeaders", ":libnexa:buildLibnexaAndroid")
-    }
-}
 
 afterEvaluate {
     tasks.withType<AndroidUnitTest>().all {

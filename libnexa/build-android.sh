@@ -6,7 +6,7 @@ set -e
 [[ -z "$ARCH" ]] && echo "Please set the ARCH variable" && exit 1
 [[ -z "$TOOLCHAIN" ]] && echo "Please set the TOOLCHAIN variable" && exit 1
 
-echo "Input environment variables to reproduce this build"
+echo "build-android.sh: Input environment variables to reproduce this build"
 echo "ANDROID_NDK=$ANDROID_NDK ARCH=$ARCH TOOLCHAIN=$TOOLCHAIN"
 
 if [ "$ARCH" == "x86_64" ]; then

@@ -1,0 +1,17 @@
+# This is the kotlin package name, e.g. import libnexa.* to get access to these native functions
+package = libnexa
+
+compilerOpts = -DCINTEROP -Ilibnexa/nexa/src/cashlib
+
+# Grab the native function declarations from these files:
+headers = cashlib.h
+headerFilter = libnexa/** cashlib.h
+
+# This is the library that contains the implementations
+staticLibraries = libnexalight.a
+
+libraryPaths.ios_arm64 = libnexa/build/ios/arm64 /usr/local/lib
+libraryPaths.ios_simulator_arm64 = libnexa/build/ios/arm64-sim /usr/local/lib
+libraryPaths.ios_x64 = libnexa/build/ios/x86_64-sim /usr/local/lib
+
+linkerOpts.ios = -framework Security -framework Foundation
