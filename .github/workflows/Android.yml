@@ -25,6 +25,7 @@ jobs:
         with:
           distribution: corretto
           java-version: 11
-
+      - name: Download Nexa
+        run: git clone https://gitlab.com/nexa/nexa
       - name: Build
-        run: ./gradlew build
+        run: libnexa/build-android.sh
