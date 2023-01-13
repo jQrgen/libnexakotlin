@@ -25,8 +25,11 @@ jobs:
           distribution: corretto
           java-version: 11
 
+      - name: Download Nexa Node
+        run: ./init_nexa_node.sh
+
       - name: Build
-        run: ./gradlew :shared:iosX64Test
+        run: ./gradlew iosX64Test
 
       - name: Build
         uses: sersoft-gmbh/xcodebuild-action@v1

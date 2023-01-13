@@ -17,7 +17,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      ARCH: x86_64
+      TOOLCHAIN: darwin-x86_64
+      TARGET: i686-linux-android
+      TOOLTARGET: arm-linux-androideabi
     steps:
       - uses: actions/checkout@v3
 
@@ -27,5 +31,7 @@ jobs:
           java-version: 11
       - name: Download Nexa
         run: git clone https://gitlab.com/nexa/nexa
+      - name: Download Boost
+        run: ./libnexa/nexa/src/cashlib/downloadBoostAndroid.sh
       - name: Build
         run: libnexa/build-android.sh
