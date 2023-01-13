@@ -38,7 +38,7 @@ export AS=$ANDROID_NDK/toolchains/llvm/prebuilt/$TOOLCHAIN/bin/$TOOLTARGET-as
 export RANLIB=$ANDROID_NDK/toolchains/llvm/prebuilt/$TOOLCHAIN/bin/$TOOLTARGET-ranlib
 export STRIP=$ANDROID_NDK/toolchains/llvm/prebuilt/$TOOLCHAIN/bin/$TOOLTARGET-strip
 # export CXXFLAGS=-DANDROID
-
+export PLATFORM=ANDROID
 echo TARGET=${TARGET}
 
 make -j 10

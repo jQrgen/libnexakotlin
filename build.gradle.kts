@@ -102,6 +102,22 @@ android {
     }
 }
 
+task<Exec>("generateJniHeaders") {
+    group = "build"
+    dependsOn("compileDebugKotlinAndroid")
+
+    afterEvaluate {
+        commandLine("ls")
+        }
+    }
+
+afterEvaluate {
+    tasks.filter { it.name.startsWith("configureCMake") } .forEach {
+        it.dependsOn("generateJniHeaders", ":libnexa:buildLibnexaAndroid")
+        }
+    }
+
+
 
 afterEvaluate {
     tasks.withType<AndroidUnitTest>().all {
