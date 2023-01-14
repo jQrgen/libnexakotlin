@@ -1,4 +1,11 @@
-all: ./build/android/${ARCH}/libnexalight.so ./build/android/${ARCH}/libnexalight.a
+lc = $(subst A,a,$(subst B,b,$(subst C,c,$(subst D,d,$(subst E,e,$(subst F,f,$(subst G,g,$(subst H,h,$(subst I,i,$(subst J,j,$(subst K,k,$(subst L,l,$(subst M,m,$(subst N,n,$(subst O,o,$(subst P,p,$(subst Q,q,$(subst R,r,$(subst S,s,$(subst T,t,$(subst U,u,$(subst V,v,$(subst W,w,$(subst X,x,$(subst Y,y,$(subst Z,z,$1))))))))))))))))))))))))))
+
+BUILD_DIR:=$(abspath nexa/${TARGET}/lightbuild)
+
+# platform is PLATFORM lowercase
+platform:=$(call lc,${PLATFORM})
+# $(warning ${platform})
+all: build/${platform}/${ARCH}/libnexalight.so build/${platform}/${ARCH}/libnexalight.a
 
 nexa/configure: nexa/configure.ac
 	echo configure not needed because manually inserting nexa-config.h
@@ -27,20 +34,25 @@ nexa/${TARGET}/lightbuild/Makefile: nexa/src/cashlib/nexa-config.h nexa/src/cash
 # will build both .so and .a
 nexa/${TARGET}/lightbuild/libnexalight.so:
 	mkdir -p nexa/${TARGET}/lightbuild
-	BUILD_DIR=$(abspath nexa/${TARGET}/lightbuild) $(MAKE) -C nexa/src/cashlib
+	BUILD_DIR=${BUILD_DIR} $(MAKE) -C nexa/src/cashlib ${BUILD_DIR}/libnexalight.so
+
+nexa/${TARGET}/lightbuild/libnexalight.a:
+	@echo deferring build of $@ to cashlib
+	mkdir -p nexa/${TARGET}/lightbuild
+	BUILD_DIR=${BUILD_DIR} $(MAKE) -C nexa/src/cashlib ${BUILD_DIR}/libnexalight.a
 
 
 #./build/android/${ARCH}/libnexalight.a: build/android/${ARCH} nexa/${TARGET}/lightbuild/libnexalight.so
 #	cp nexa/${TARGET}/src/.libs/libnexalight.a build/android/${ARCH}/libnexalight.a
 
-./build/android/${ARCH}/libnexalight.so: build/android/${ARCH} nexa/${TARGET}/lightbuild/libnexalight.so
-	cp nexa/${TARGET}/lightbuild/libnexalight.so build/android/${ARCH}/libnexalight.so
+build/${platform}/${ARCH}/libnexalight.so: build/${platform}/${ARCH} nexa/${TARGET}/lightbuild/libnexalight.so
+	cp nexa/${TARGET}/lightbuild/libnexalight.so build/${platform}/${ARCH}/libnexalight.so
 
-./build/android/${ARCH}/libnexalight.a: build/android/${ARCH} nexa/${TARGET}/lightbuild/libnexalight.so
-	cp nexa/${TARGET}/lightbuild/libnexalight.a build/android/${ARCH}/libnexalight.a
+build/${platform}/${ARCH}/libnexalight.a: build/${platform}/${ARCH} nexa/${TARGET}/lightbuild/libnexalight.a
+	cp nexa/${TARGET}/lightbuild/libnexalight.a build/${platform}/${ARCH}/libnexalight.a
 
-./build/android/${ARCH}:
-	mkdir -p ./build/android/${ARCH}
+build/${platform}/${ARCH}:
+	mkdir -p ./build/${platform}/${ARCH}
 
 
 
