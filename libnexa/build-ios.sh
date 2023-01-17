@@ -10,15 +10,15 @@ echo "ARCH=$ARCH"
 if [ "$ARCH" == "arm64" ]; then
   SDK="iphoneos"
   SYSROOT=$(xcrun --sdk ${SDK} --show-sdk-path)
-  HOST_FLAGS="-arch arm64 -arch arm64e -miphoneos-version-min=10.0 -isysroot ${SYSROOT}"
+  HOST_FLAGS="-arch arm64 -arch arm64e -miphoneos-version-min=13.0 -isysroot ${SYSROOT}"
   CHOST="arm-apple-darwin"
 elif [ "$ARCH" == "arm64-sim" ]; then
   SDK="iphonesimulator"
-  HOST_FLAGS="-arch arm64 -arch arm64e -mios-simulator-version-min=10.0 -isysroot $(xcrun --sdk ${SDK} --show-sdk-path)"
+  HOST_FLAGS="-arch arm64 -arch arm64e -mios-simulator-version-min=13.0 -isysroot $(xcrun --sdk ${SDK} --show-sdk-path)"
   CHOST="arm-apple-darwin"
 elif [ "$ARCH" == "x86_64-sim" ]; then
   SDK="iphonesimulator"
-  HOST_FLAGS="-arch x86_64 -mios-simulator-version-min=10.0 -isysroot $(xcrun --sdk ${SDK} --show-sdk-path)"
+  HOST_FLAGS="-arch x86_64 -mios-simulator-version-min=13.0 -isysroot $(xcrun --sdk ${SDK} --show-sdk-path)"
   CHOST="x86_64-apple-darwin"
 else
   echo "Unsupported ARCH: $ARCH"
@@ -32,18 +32,19 @@ export CC=$(xcrun --find --sdk "${SDK}" clang)
 export CXX=$(xcrun --find --sdk "${SDK}" clang++)
 export CPP=$(xcrun --find --sdk "${SDK}" cpp)
 export CFLAGS="${HOST_FLAGS} -O3 -g3 -fembed-bitcode"
-export CXXFLAGS="${HOST_FLAGS} -O3 -g3 -fembed-bitcode"
+export CXXFLAGS="${HOST_FLAGS} -O3 -g3 -fembed-bitcode -Wno-deprecated-declarations"
 export LDFLAGS="${HOST_FLAGS}"
 
 export TARGET=${CHOST}
-
+export PLATFORM=IOS
 echo "FLAGS:"
 echo CC=${CC}
 echo CXX=${CXX}
 echo CFLAGS=${CFLAGS}
 echo CXXFLAGS=${CXXFLAGS}
 
-make -j 10
+# IOS only needs to build static library.  Android needs shared
+make -j 10 build/ios/${ARCH}/libnexalight.a
 exit 0
 
 # this old code shows how you might use a standard autoconf toolchain

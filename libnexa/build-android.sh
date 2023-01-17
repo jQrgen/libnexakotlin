@@ -37,11 +37,11 @@ export AR=$ANDROID_NDK/toolchains/llvm/prebuilt/$TOOLCHAIN/bin/$TOOLTARGET-ar
 export AS=$ANDROID_NDK/toolchains/llvm/prebuilt/$TOOLCHAIN/bin/$TOOLTARGET-as
 export RANLIB=$ANDROID_NDK/toolchains/llvm/prebuilt/$TOOLCHAIN/bin/$TOOLTARGET-ranlib
 export STRIP=$ANDROID_NDK/toolchains/llvm/prebuilt/$TOOLCHAIN/bin/$TOOLTARGET-strip
-# export CXXFLAGS=-DANDROID
-
+export PLATFORM=ANDROID
 echo TARGET=${TARGET}
 
 make -j 10
+# ./build/${PLATFORM}/${ARCH}/libnexalight.a
 exit 0
 
 # If using cmake

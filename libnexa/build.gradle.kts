@@ -31,7 +31,6 @@ val buildLibnexaIosArm64 by creatingBuildLibnexaIos("arm64")
 val buildLibnexaIosArm64Sim by creatingBuildLibnexaIos("arm64-sim")
 val buildLibnexaIosX86_64Sim by creatingBuildLibnexaIos("x86_64-sim")
 
-
 val buildLibnexaAndroid by tasks.creating {
     group = "build"
     buildLibnexa.dependsOn(this)
@@ -41,7 +40,7 @@ fun creatingBuildLibnexaAndroid(arch: String) = tasks.creating(Exec::class) {
     group = "build"
     buildLibnexaAndroid.dependsOn(this)
 
-    //  onlyIf { currentOs.isLinux }
+    // onlyIf { currentOs.isLinux }
 
     inputs.files("build-android.sh", fileTree("$projectDir/libnexa/src") {
         include("*.c", "*.h")

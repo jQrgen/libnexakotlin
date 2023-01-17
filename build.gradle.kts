@@ -4,14 +4,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.Properties
 
 plugins {
-    kotlin("multiplatform") version "1.6.21"
+    kotlin("multiplatform") version "1.8.0"
     id("com.android.library")
     `maven-publish`
     idea
 }
 
-group = "net.kodein.demo.crypto"
-version = "1.0"
+group = "org.nexa.libnexakotlin"
+version = "0.1"
 
 repositories {
     google()
@@ -101,6 +101,22 @@ android {
         }
     }
 }
+
+task<Exec>("generateJniHeaders") {
+    group = "build"
+    dependsOn("compileDebugKotlinAndroid")
+
+    afterEvaluate {
+        commandLine("ls")
+        }
+    }
+
+afterEvaluate {
+    tasks.filter { it.name.startsWith("configureCMake") } .forEach {
+        it.dependsOn("generateJniHeaders", ":libnexa:buildLibnexaAndroid")
+        }
+    }
+
 
 
 afterEvaluate {
