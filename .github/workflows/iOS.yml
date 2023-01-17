@@ -26,7 +26,7 @@ jobs:
           java-version: 11
 
       - name: Download Nexa Node
-        run: ./init_nexa_node.sh
+        run: chmod +x init_nexa_node.sh && ./init_nexa_node.sh
 
       - name: Build
         run: ./gradlew iosX64Test
